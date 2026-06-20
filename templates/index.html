@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishCinemaHub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-300 font-sans p-6 h-screen flex gap-6">
+
+    <aside class="w-64 bg-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg border border-slate-700">
+        </aside>
+
+    <main class="flex-1 flex flex-col gap-6">
+        <div class="flex gap-6 h-full">
+            <div class="lego-block flex-1 bg-slate-800 rounded-xl p-6 border border-slate-700">
+                <h3 class="text-white font-bold mb-2">Mastery Profile</h3>
+            </div>
+        </div>
+    </main>
+
+    <aside class="w-96 flex flex-col gap-4 overflow-y-auto">
+        {% for quiz in quizzes %}
+        <div class="lego-block bg-slate-800 rounded-xl p-6 border border-slate-700 flex flex-col mb-4">
+            <div class="aspect-video mb-4">
+                <video width="100%" controls class="rounded-lg">
+                    <source src="/video/{{ quiz.video_file }}" type="video/mp4">
+                </video>
+            </div>
+
+            <h3 class="text-white font-bold mb-4 border-b border-slate-700 pb-2">Subtext Analysis</h3>
+            <p class="text-sm text-slate-300 italic mb-6 border-l-2 border-yellow-500 pl-3">
+                {{ quiz.data.question }}
+            </p>
+            
+            <div class="flex flex-col gap-3">
+                {% for option in quiz.data.options %}
+                <button data-correct="{{ 'true' if option.is_correct else 'false' }}" 
+                        onclick="checkAnswer({{ 'true' if option.is_correct else 'false' }}, this)" 
+                        class="quiz-btn text-left px-4 py-3 bg-slate-700 rounded-lg text-sm hover:bg-slate-600 transition-colors border border-transparent">
+                    {{ option.text }}
+                </button>
+                {% endfor %}
+            </div>
+
+            <div class="feedback-panel hidden mt-6 p-4 rounded-lg text-sm font-medium border">
+                <span class="feedback-title font-bold block mb-1"></span>
+                <span class="feedback-text"></span>
+                
+                <div class="explanation-content hidden mt-3 pt-3 border-t border-slate-600 text-slate-300">
+                    <span class="font-bold text-yellow-500">Explanation:</span> 
+                    <span class="ai-explanation">{{ quiz.data.explanation }}</span>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </aside>
+
+    <script>
+        function checkAnswer(isCorrect, element) {
+            const parent = element.closest('.lego-block');
+            const feedbackPanel = parent.querySelector('.feedback-panel');
+            const feedbackTitle = parent.querySelector('.feedback-title');
+            const feedbackText = parent.querySelector('.feedback-text');
+            const explanationContent = parent.querySelector('.explanation-content');
+
+            parent.querySelectorAll('.quiz-btn').forEach(btn => {
+                btn.classList.remove('border-green-500', 'bg-green-500/10', 'border-red-500', 'bg-red-500/10');
+            });
+
+            feedbackPanel.classList.remove('hidden', 'bg-green-500/10', 'border-green-500', 'text-green-400', 'bg-red-500/10', 'border-red-500', 'text-red-400');
+            explanationContent.classList.remove('hidden');
+
+            if (isCorrect) {
+                element.classList.add('border-green-500', 'bg-green-500/10');
+                feedbackPanel.classList.add('bg-green-500/10', 'border-green-500', 'text-green-400');
+                feedbackTitle.innerText = "Correct!";
+                feedbackText.innerText = "Great job! You selected the right option.";
+            } else {
+                element.classList.add('border-red-500', 'bg-red-500/10');
+                feedbackPanel.classList.add('bg-red-500/10', 'border-red-500', 'text-red-400');
+                feedbackTitle.innerText = "Not quite.";
+                feedbackText.innerText = "Review the context and try again.";
+            }
+        }
+    </script>
+</body>
+</html>

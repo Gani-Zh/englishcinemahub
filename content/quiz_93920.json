@@ -1,0 +1,18 @@
+{
+    "question": "Select the correct formal equivalent:",
+    "options": [
+        {
+            "text": "Her second assistant notes is supposed",
+            "is_correct": false
+        },
+        {
+            "text": "Her notes second assistant supposed is",
+            "is_correct": false
+        },
+        {
+            "text": "is supposed",
+            "is_correct": true
+        }
+    ],
+    "explanation": "The correct word order should be 'is supposed'. Placing 'is supposed' in any other position in the sentence would result in incorrect phrasing."
+}

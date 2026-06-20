@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EnglishCinemaHub - Learner Dashboard</title>
+    <!-- Использование Tailwind CSS для модульной стилизации -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Изолированные стили для плавных анимаций */
+        .lego-block { transition: all 0.3s ease; }
+        .lego-block:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5); }
+    </style>
+</head>
+<body class="bg-slate-900 text-slate-300 font-sans p-6 h-screen flex gap-6">
+
+    <!-- БЛОК 1: Navigation Sidebar -->
+    <aside class="w-64 bg-slate-800 rounded-xl p-5 flex flex-col justify-between shadow-lg border border-slate-700">
+        <div>
+            <div class="flex items-center gap-3 mb-10">
+                <div class="w-8 h-8 bg-yellow-500 rounded flex items-center justify-center font-bold text-slate-900">EC</div>
+                <h1 class="text-xl font-bold text-white tracking-tight">CinemaHub</h1>
+            </div>
+            <nav class="space-y-4">
+                <a href="#" class="block px-4 py-2 bg-slate-700 text-yellow-400 rounded-lg border-l-4 border-yellow-500 font-semibold">Dashboard</a>
+                <a href="#" class="block px-4 py-2 hover:bg-slate-700 rounded-lg transition-colors">Theater</a>
+                <a href="#" class="block px-4 py-2 hover:bg-slate-700 rounded-lg transition-colors">Insights</a>
+            </nav>
+        </div>
+        <div class="bg-slate-700 p-4 rounded-lg text-sm text-center">
+            <span class="block text-yellow-500 font-bold mb-1">C1 Advanced</span>
+            <span class="text-slate-400">Mastery Level</span>
+        </div>
+    </aside>
+
+    <!-- БЛОК 2: Main Dashboard Content -->
+    <main class="flex-1 flex flex-col gap-6">
+        <!-- Hero Widget: Resume Learning -->
+        <section class="lego-block bg-slate-800 rounded-xl p-8 border border-slate-700 shadow-lg relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-slate-700 to-transparent opacity-50"></div>
+            <div class="relative z-10 w-2/3">
+                <span class="text-xs font-bold uppercase tracking-wider text-yellow-500 mb-2 block">Resume Learning</span>
+                <h2 class="text-4xl font-bold text-white mb-4">The Devil Wears Prada</h2>
+                <p class="text-sm text-slate-400 mb-6 line-clamp-2">Scene 4: The Cerulean Sweater Monologue. Master negotiation tone and implicit social hierarchy vocabulary.</p>
+                <div class="mb-4">
+                    <div class="flex justify-between text-xs mb-1 font-semibold"><span class="text-slate-300">Scene Progress</span><span class="text-yellow-500">66%</span></div>
+                    <div class="w-full bg-slate-700 rounded-full h-1.5"><div class="bg-yellow-500 h-1.5 rounded-full" style="width: 66%"></div></div>
+                </div>
+                <button class="bg-yellow-500 hover:bg-yellow-400 text-slate-900 font-bold py-2 px-6 rounded-lg transition-colors">Continue Analysis</button>
+            </div>
+        </section>
+
+        <!-- Stats & Curated List -->
+        <div class="flex gap-6 h-full">
+            <div class="lego-block flex-1 bg-slate-800 rounded-xl p-6 border border-slate-700 flex items-center justify-center">
+                <!-- Заглушка для Radar Chart -->
+                <div class="text-center">
+                    <h3 class="text-white font-bold mb-2">Mastery Profile</h3>
+                    <div class="w-32 h-32 border-2 border-slate-600 rounded-full flex items-center justify-center text-slate-500 text-xs">[Radar Chart Placeholder]</div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- БЛОК 3: Interactive Cinema Player & Quiz Panel -->
+    <aside class="w-96 flex flex-col gap-4">
+        <!-- Video Player Module -->
+        <div class="lego-block bg-slate-800 rounded-xl aspect-video border border-slate-700 relative flex items-center justify-center group">
+            <div class="absolute inset-0 bg-slate-900/50 group-hover:bg-transparent transition-colors rounded-xl"></div>
+            <span class="text-slate-500 font-mono text-sm z-10 bg-slate-800/80 px-3 py-1 rounded">[Video Stream 01:24:45]</span>
+        </div>
+
+        <!-- Interactive Subtext Module (The Quiz Engine) -->
+        <div class="lego-block flex-1 bg-slate-800 rounded-xl p-6 border border-slate-700 flex flex-col">
+            <h3 class="text-white font-bold mb-4 border-b border-slate-700 pb-2">Subtext Analysis</h3>
+            
+            <!-- Context Text -->
+            <p class="text-sm text-slate-300 italic mb-6 border-l-2 border-yellow-500 pl-3">"I never ____ to leave you behind. It was a matter of survival, not malice."</p>
+            
+            <!-- Quiz Form (Multiple Choice) -->
+            <div id="quiz-container" class="flex flex-col gap-3">
+                <p class="text-xs font-bold text-slate-400 uppercase">Select the correct formal equivalent:</p>
+                
+                <button onclick="checkAnswer(false, this)" class="quiz-btn text-left px-4 py-3 bg-slate-700 rounded-lg text-sm hover:bg-slate-600 transition-colors border border-transparent">
+                    A) meant
+                </button>
+                <button onclick="checkAnswer(true, this)" class="quiz-btn text-left px-4 py-3 bg-slate-700 rounded-lg text-sm hover:bg-slate-600 transition-colors border border-transparent">
+                    B) intended
+                </button>
+                <button onclick="checkAnswer(false, this)" class="quiz-btn text-left px-4 py-3 bg-slate-700 rounded-lg text-sm hover:bg-slate-600 transition-colors border border-transparent">
+                    C) planned
+                </button>
+            </div>
+
+            <!-- Feedback Panel (Hidden by default) -->
+            <div id="feedback-panel" class="hidden mt-6 p-4 rounded-lg text-sm font-medium border">
+                <span id="feedback-title" class="font-bold block mb-1"></span>
+                <span id="feedback-text"></span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Имитация ответа от сервера (API Logic) -->
+    <script>
+        function checkAnswer(isCorrect, element) {
+            // Сброс стилей кнопок
+            document.querySelectorAll('.quiz-btn').forEach(btn => {
+                btn.classList.remove('border-red-500', 'border-green-500', 'bg-red-500/10', 'bg-green-500/10');
+            });
+
+            const feedbackPanel = document.getElementById('feedback-panel');
+            const feedbackTitle = document.getElementById('feedback-title');
+            const feedbackText = document.getElementById('feedback-text');
+
+            feedbackPanel.classList.remove('hidden', 'bg-red-500/10', 'border-red-500', 'text-red-400', 'bg-green-500/10', 'border-green-500', 'text-green-400');
+
+            if (isCorrect) {
+                element.classList.add('border-green-500', 'bg-green-500/10');
+                feedbackPanel.classList.add('bg-green-500/10', 'border-green-500', 'text-green-400');
+                feedbackTitle.innerText = "Correct! (C1 Vocabulary)";
+                feedbackText.innerText = "The use of 'intended' shifts the blame away from the speaker in a formal context, masking guilt.";
+            } else {
+                element.classList.add('border-red-500', 'bg-red-500/10');
+                feedbackPanel.classList.add('bg-red-500/10', 'border-red-500', 'text-red-400');
+                feedbackTitle.innerText = "Incorrect register.";
+                feedbackText.innerText = "This option is grammatically correct but too informal (B1/B2) for this specific high-stakes corporate negotiation.";
+            }
+        }
+    </script>
+</body>
+</html>

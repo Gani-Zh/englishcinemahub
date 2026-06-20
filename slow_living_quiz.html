@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C1-C2 English Grammar: Past Modals & Slow Living</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .correct {
+            background-color: #d1fae5 !important;
+            border-color: #10b981 !important;
+            color: #065f46 !important;
+        }
+        .incorrect {
+            background-color: #fee2e2 !important;
+            border-color: #ef4444 !important;
+            color: #991b1b !important;
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-2xl w-full bg-white rounded-2xl shadow-xl overflow-hidden fade-in">
+        <!-- Header -->
+        <div class="bg-teal-700 p-6 text-white text-center">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">Past Modals & Slow Living</h1>
+            <p class="text-teal-100 text-sm md:text-base">Level: C1-C2 | Master deductions, regrets, and possibilities.</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="p-6 md:p-8">
+            
+            <!-- Progress Bar -->
+            <div class="mb-6">
+                <div class="flex justify-between text-sm text-gray-500 mb-2">
+                    <span id="question-tracker">Question 1 of 10</span>
+                    <span id="score-tracker">Score: 0</span>
+                </div>
+                <div class="w-full bg-gray-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-teal-600 h-2.5 rounded-full" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <!-- Question Area -->
+            <div id="question-area">
+                <h2 id="question-text" class="text-lg md:text-xl font-semibold text-gray-800 mb-6 leading-relaxed">
+                    <!-- Question will be injected here -->
+                </h2>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be injected here -->
+                </div>
+            </div>
+
+            <!-- Feedback Area (Hidden by default) -->
+            <div id="feedback-area" class="mt-6 hidden fade-in">
+                <div id="feedback-box" class="p-4 rounded-lg border">
+                    <p id="feedback-title" class="font-bold text-lg mb-1"></p>
+                    <p id="feedback-explanation" class="text-gray-700"></p>
+                </div>
+                <button id="next-btn" onclick="nextQuestion()" class="mt-4 w-full bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200">
+                    Next Question
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Results Container (Hidden by default) -->
+        <div id="results-container" class="p-8 text-center hidden fade-in">
+            <h2 class="text-3xl font-bold text-gray-800 mb-4">Quiz Completed!</h2>
+            <p class="text-xl text-gray-600 mb-6">Your final score is <span id="final-score" class="font-bold text-teal-600"></span> out of 10.</p>
+            
+            <div id="performance-message" class="mb-8 text-gray-700 bg-teal-50 p-4 rounded-lg border border-teal-100">
+                <!-- Message injected based on score -->
+            </div>
+
+            <button onclick="restartQuiz()" class="bg-teal-600 hover:bg-teal-700 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-200 transform hover:-translate-y-1">
+                Start Again
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questionBank = [
+            {
+                question: "Sarah looks completely rejuvenated after her digital detox weekend in the cabin. She _______ her phone off the entire time.",
+                options: ["should have kept", "must have kept", "might have kept", "can't have kept"],
+                correctAnswer: "must have kept",
+                explanation: "<strong>Must have + past participle</strong> is used for strong positive deductions. Based on the evidence, we are almost 100% certain she kept her phone off."
+            },
+            {
+                question: "I completely missed the joy of that hike because I was rushing to get to the summit. I _______ more time to appreciate the journey, which is a core tenet of slow living.",
+                options: ["could take", "must have taken", "should have taken", "needn't have taken"],
+                correctAnswer: "should have taken",
+                explanation: "<strong>Should have + past participle</strong> is used to express past regret. It means it was a good idea to take more time, but the speaker didn't do it."
+            },
+            {
+                question: "He resigned from his high-pressure corporate job without having another one lined up. The transition to a slow life _______ easy for him initially.",
+                options: ["mustn't have been", "shouldn't have been", "needn't have been", "can't have been"],
+                correctAnswer: "can't have been",
+                explanation: "<strong>Can't have + past participle</strong> is used for strong negative deductions (impossibility). We do NOT use 'mustn't have' for logical deductions in C1/C2 English."
+            },
+            {
+                question: "Their decision to move to the countryside to embrace slow living _______ influenced by the pandemic, though they've never explicitly stated it to anyone.",
+                options: ["might have been", "must have been", "should have been", "could be"],
+                correctAnswer: "might have been",
+                explanation: "<strong>Might have + past participle</strong> expresses past possibility. Because they 'never explicitly stated it', we are making a guess, not a certain deduction."
+            },
+            {
+                question: "You _______ cooking that elaborate meal from scratch if it stressed you out so much. Slow living is about finding peace, not just doing things the hard way.",
+                options: ["didn't need to bother", "needn't have bothered", "couldn't have bothered", "mustn't have bothered"],
+                correctAnswer: "needn't have bothered",
+                explanation: "<strong>Needn't have + past participle</strong> is used when someone actually did an action, but it was unnecessary and a waste of effort."
+            },
+            {
+                question: "In hindsight, we _______ the signs that the constant hustle was taking a toll on our mental health long before we actually adopted a slower pace.",
+                options: ["might recognize", "must have recognized", "should have recognized", "can't have recognized"],
+                correctAnswer: "should have recognized",
+                explanation: "<strong>Should have + past participle</strong> is used here to acknowledge a past mistake or regret. Looking back ('in hindsight'), it would have been highly advisable."
+            },
+            {
+                question: "Even if she had stayed in the bustling city, she _______ adopted some slow living practices, like mindful mornings or disconnecting on weekends.",
+                options: ["could have", "must have", "should have", "will have"],
+                correctAnswer: "could have",
+                explanation: "<strong>Could have + past participle</strong> is used to talk about an unfulfilled past possibility or ability. She had the option/ability to adopt these practices."
+            },
+            {
+                question: "They arrived at the rural retreat looking serene, energized, and completely relaxed. The long journey _______ too arduous.",
+                options: ["might not have been", "must not have been", "can't have been", "needn't have been"],
+                correctAnswer: "can't have been",
+                explanation: "<strong>Can't have + past participle</strong> is the correct form for negative deduction. The evidence makes it logically impossible that the journey was highly difficult."
+            },
+            {
+                question: "I _______ my phone at home on purpose during my mindful walk, but honestly, I think I just forgot it by accident.",
+                options: ["must have left", "should have left", "might have left", "can't have left"],
+                correctAnswer: "might have left",
+                explanation: "<strong>Might have + past participle</strong> shows uncertainty. The speaker isn't entirely sure of their own past motivation."
+            },
+            {
+                question: "Many sociologists argue that the slow living movement _______ such mainstream popularity without the collective burnout experienced during the pandemic.",
+                options: ["couldn't have gained", "mustn't have gained", "shouldn't have gained", "needn't have gained"],
+                correctAnswer: "couldn't have gained",
+                explanation: "<strong>Couldn't have + past participle</strong> expresses that something was a complete impossibility in the past."
+            },
+            {
+                question: "The artisan bread dough didn't rise at all. I _______ it for long enough, or perhaps the kitchen was too cold.",
+                options: ["must not have kneaded", "might not have kneaded", "couldn't have kneaded", "shouldn't have kneaded"],
+                correctAnswer: "might not have kneaded",
+                explanation: "<strong>Might not have + past participle</strong> expresses a possibility of a past negative action (maybe I didn't do it)."
+            },
+            {
+                question: "She _______ to reply to those emails on a Sunday morning. The office was closed, and nobody was expecting a response.",
+                options: ["didn't need", "needn't have bothered", "mustn't have bothered", "couldn't have bothered"],
+                correctAnswer: "needn't have bothered",
+                explanation: "<strong>Needn't have + past participle</strong> is used when an action was completed (she replied), but it was totally unnecessary."
+            },
+            {
+                question: "They _______ a fortune on that off-grid solar setup. Those top-tier panels are incredibly expensive.",
+                options: ["must have spent", "should have spent", "could spend", "needn't have spent"],
+                correctAnswer: "must have spent",
+                explanation: "<strong>Must have + past participle</strong> forms a strong positive deduction based on the fact that the panels are known to be expensive."
+            },
+            {
+                question: "I _______ the notification bell off, but I just heard a ping from my laptop.",
+                options: ["might have turned", "must have turned", "should have turned", "can't have turned"],
+                correctAnswer: "can't have turned",
+                explanation: "<strong>Can't have + past participle</strong> is a negative deduction. Because you heard a ping, it is impossible that you turned the bell off."
+            },
+            {
+                question: "We _______ a slower pace of life years ago, but we were simply too caught up in the corporate rat race to see the benefits.",
+                options: ["must have embraced", "might embrace", "could have embraced", "should embrace"],
+                correctAnswer: "could have embraced",
+                explanation: "<strong>Could have + past participle</strong> indicates an ability or opportunity that existed in the past but wasn't taken."
+            },
+            {
+                question: "The plants in her indoor jungle are completely withered. She _______ them while she was away on her month-long retreat.",
+                options: ["mustn't have watered", "shouldn't have watered", "can't have watered", "might not water"],
+                correctAnswer: "can't have watered",
+                explanation: "<strong>Can't have + past participle</strong> is the standard C1/C2 form for strong negative deduction. Do not use 'mustn't have' here."
+            },
+            {
+                question: "You _______ feeling guilty about doing absolutely nothing on Sunday. Rest is a productive part of slow living!",
+                options: ["needn't have been", "couldn't have been", "mustn't have been", "shouldn't have been"],
+                correctAnswer: "shouldn't have been",
+                explanation: "<strong>Shouldn't have been + present participle</strong> is used to criticize or express regret about a continuous state/action in the past."
+            },
+            {
+                question: "He _______ to the minimalist lifestyle easily, considering he already owned very few possessions before the move.",
+                options: ["must have adapted", "might adapt", "can't have adapted", "needn't have adapted"],
+                correctAnswer: "must have adapted",
+                explanation: "<strong>Must have + past participle</strong> is a logical conclusion. Since he owned few things, it's highly logical that adapting was easy."
+            },
+            {
+                question: "I completely forgot to brew my loose-leaf tea this morning. I _______ so distracted by the morning news.",
+                options: ["must have been", "should have been", "can't have been", "needn't have been"],
+                correctAnswer: "must have been",
+                explanation: "<strong>Must have + past participle</strong> is used here to make a strong deduction about one's own past mental state based on the result (forgetting the tea)."
+            },
+            {
+                question: "They _______ to the farmers' market so early; all the stalls stay open until late afternoon on weekends.",
+                options: ["couldn't have rushed", "needn't have rushed", "didn't need to rush", "mustn't have rushed"],
+                correctAnswer: "needn't have rushed",
+                explanation: "<strong>Needn't have + past participle</strong> means they did rush, but there was no obligation or need to do so."
+            }
+        ];
+
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionTracker = document.getElementById('question-tracker');
+        const scoreTracker = document.getElementById('score-tracker');
+        const progressBar = document.getElementById('progress-bar');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const finalScore = document.getElementById('final-score');
+        const performanceMessage = document.getElementById('performance-message');
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function initQuiz() {
+            // Shuffle the entire bank and pick the first 10 for a unique session
+            let shuffledBank = shuffleArray([...questionBank]);
+            currentQuestions = shuffledBank.slice(0, 10);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            quizContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            updateUI();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            feedbackArea.classList.add('hidden');
+            
+            const currentQ = currentQuestions[currentQuestionIndex];
+            questionText.innerHTML = `${currentQuestionIndex + 1}. ${currentQ.question}`;
+            
+            optionsContainer.innerHTML = '';
+            
+            // Shuffle options for this specific question so the correct answer moves around
+            let shuffledOptions = shuffleArray([...currentQ.options]);
+            
+            shuffledOptions.forEach((option) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left p-4 rounded-lg border border-gray-300 hover:bg-gray-50 hover:border-teal-500 transition duration-200 text-gray-700 text-base md:text-lg";
+                button.textContent = option;
+                button.onclick = () => selectAnswer(option, currentQ.correctAnswer, button);
+                optionsContainer.appendChild(button);
+            });
+
+            updateUI();
+        }
+
+        function selectAnswer(selectedOption, correctAnswer, selectedButton) {
+            if (answered) return;
+            answered = true;
+
+            const buttons = optionsContainer.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.add('disabled'));
+
+            if (selectedOption === correctAnswer) {
+                // Correct
+                selectedButton.classList.add('correct');
+                score++;
+                showFeedback(true, currentQuestions[currentQuestionIndex].explanation);
+            } else {
+                // Incorrect
+                selectedButton.classList.add('incorrect');
+                // Find and highlight correct answer based on text match
+                buttons.forEach(btn => {
+                    if (btn.textContent === correctAnswer) {
+                        btn.classList.add('correct');
+                    }
+                });
+                showFeedback(false, currentQuestions[currentQuestionIndex].explanation);
+            }
+
+            updateUI();
+        }
+
+        function showFeedback(isCorrect, explanation) {
+            feedbackArea.classList.remove('hidden');
+            
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-lg border bg-green-50 border-green-200";
+                feedbackTitle.className = "font-bold text-lg mb-1 text-green-800";
+                feedbackTitle.innerHTML = "✓ Correct!";
+            } else {
+                feedbackBox.className = "p-4 rounded-lg border bg-red-50 border-red-200";
+                feedbackTitle.className = "font-bold text-lg mb-1 text-red-800";
+                feedbackTitle.innerHTML = "✗ Incorrect";
+            }
+            
+            feedbackExplanation.innerHTML = explanation;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateUI() {
+            questionTracker.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            scoreTracker.textContent = `Score: ${score}`;
+            
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+            progressBar.style.width = `${progress === 0 ? 10 : progress}%`;
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            finalScore.textContent = score;
+
+            if (score >= 9) {
+                performanceMessage.innerHTML = "<strong>Outstanding!</strong> You have a masterful grasp of C1-C2 past modals. You can clearly navigate the nuances of deduction, regret, and possibility.";
+            } else if (score >= 6) {
+                performanceMessage.innerHTML = "<strong>Great job!</strong> You have a solid understanding of past modals, but there's still a bit of room to refine the subtle differences between negative deductions and possibilities.";
+            } else {
+                performanceMessage.innerHTML = "<strong>Keep practicing!</strong> Past modals at the C1/C2 level are tricky. Remember to review the differences between 'can't have' (deduction) and 'should have' (regret). Try again!";
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        // Start the quiz on load
+        initQuiz();
+    </script>
+</body>
+</html>

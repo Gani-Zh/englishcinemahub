@@ -1,0 +1,18 @@
+{
+    "question": "Select the correct formal equivalent:",
+    "options": [
+        {
+            "text": "must be answered",
+            "is_correct": false
+        },
+        {
+            "text": "be answered",
+            "is_correct": true
+        },
+        {
+            "text": "be answer",
+            "is_correct": false
+        }
+    ],
+    "explanation": "The correct construction for this sentence is 'be answered'. 'Must be answered' changes the meaning of the sentence, implying it is required to answer the phone. 'Be answer' is not the correct verb form for this sentence."
+}

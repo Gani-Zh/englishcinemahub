@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>B2 Business English: Second Conditional Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            background-color: #f1f5f9; /* Slate 100 */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .fade-in {
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .correct {
+            background-color: #dcfce7 !important; /* Green 100 */
+            border-color: #22c55e !important; /* Green 500 */
+            color: #166534 !important; /* Green 800 */
+        }
+        .incorrect {
+            background-color: #fee2e2 !important; /* Red 100 */
+            border-color: #ef4444 !important; /* Red 500 */
+            color: #991b1b !important; /* Red 800 */
+        }
+        .disabled {
+            pointer-events: none;
+            opacity: 0.65;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <div class="max-w-2xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden fade-in border border-slate-200">
+        <!-- Header -->
+        <div class="bg-slate-800 p-6 text-white text-center border-b-4 border-blue-500">
+            <h1 class="text-2xl md:text-3xl font-bold mb-2">Business English: Second Conditional</h1>
+            <p class="text-slate-300 text-sm md:text-base">Level: Upper-Intermediate (B2) | Hypothetical Business Scenarios</p>
+        </div>
+
+        <!-- Quiz Container -->
+        <div id="quiz-container" class="p-6 md:p-8">
+            
+            <div class="mb-6">
+                <div class="flex justify-between text-sm font-semibold text-slate-500 mb-2">
+                    <span id="question-tracker">Question 1 of 10</span>
+                    <span id="score-tracker">Score: 0</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 10%"></div>
+                </div>
+            </div>
+
+            <div id="question-area">
+                <h2 id="question-text" class="text-lg md:text-xl font-semibold text-slate-800 mb-6 leading-relaxed">
+                    <!-- Question will be injected here -->
+                </h2>
+
+                <div id="options-container" class="space-y-3">
+                    <!-- Options will be injected here -->
+                </div>
+            </div>
+
+            <div id="feedback-area" class="mt-6 hidden fade-in">
+                <div id="feedback-box" class="p-4 rounded-lg border">
+                    <p id="feedback-title" class="font-bold text-lg mb-1"></p>
+                    <p id="feedback-explanation" class="text-slate-700"></p>
+                </div>
+                <button id="next-btn" onclick="nextQuestion()" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition duration-200 shadow-md">
+                    Next Question
+                </button>
+            </div>
+
+        </div>
+
+        <div id="results-container" class="p-8 text-center hidden fade-in">
+            <div class="w-16 h-16 mx-auto bg-blue-100 rounded-full flex items-center justify-center mb-4">
+                <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <h2 class="text-3xl font-bold text-slate-800 mb-4">Performance Review</h2>
+            <p class="text-xl text-slate-600 mb-6">Your final score is <span id="final-score" class="font-bold text-blue-600 text-2xl"></span> out of 10.</p>
+            
+            <div id="performance-message" class="mb-8 text-slate-700 bg-slate-50 p-5 rounded-lg border border-slate-200 shadow-inner">
+                <!-- Message injected based on score -->
+            </div>
+
+            <button onclick="restartQuiz()" class="bg-slate-800 hover:bg-slate-900 text-white font-bold py-3 px-8 rounded-lg shadow-lg transition duration-200 transform hover:-translate-y-0.5">
+                Start Again (New Questions)
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const questionBank = [
+            {
+                question: "If our marketing budget _______ larger, we _______ into the Asian market immediately.",
+                options: ["were / would expand", "was / will expand", "would be / expanded", "had been / would expand"],
+                correctAnswer: "were / would expand",
+                explanation: "<strong>Structure: If + Past Simple, ... would + Base Verb.</strong> In formal Business English conditionals, we prefer 'were' instead of 'was' for all subjects (If I were, if it were)."
+            },
+            {
+                question: "What _______ if a major supplier suddenly _______ bankrupt?",
+                options: ["would you do / went", "will you do / goes", "did you do / would go", "would you do / had gone"],
+                correctAnswer: "would you do / went",
+                explanation: "<strong>Structure: Question word + would + Subject + Base Verb + if + Subject + Past Simple.</strong> We use this to ask about hypothetical corporate emergencies."
+            },
+            {
+                question: "We _______ you a more competitive salary if you _______ more experience in B2B sales.",
+                options: ["could offer / had", "can offer / have", "would offer / would have", "could offer / have had"],
+                correctAnswer: "could offer / had",
+                explanation: "<strong>Structure: Subject + could + Base Verb + if + Subject + Past Simple.</strong> 'Could' is used instead of 'would' to show hypothetical ability or possibility."
+            },
+            {
+                question: "If they _______ such strict delivery terms, we _______ the contract today.",
+                options: ["didn't demand / would sign", "don't demand / will sign", "wouldn't demand / signed", "didn't demanded / would sign"],
+                correctAnswer: "didn't demand / would sign",
+                explanation: "<strong>Structure: If + Subject + didn't + Base Verb, ... would + Base Verb.</strong> Remember that after 'didn't' we use the base form of the verb ('demand', not 'demanded')."
+            },
+            {
+                question: "If the team _______ more motivated, productivity _______ significantly.",
+                options: ["were / would improve", "are / will improve", "would be / improved", "was / improves"],
+                correctAnswer: "were / would improve",
+                explanation: "<strong>Structure: If + Past Simple, ... would + Base Verb.</strong> 'Were' is the correct formal past tense of the verb 'to be' in the if-clause of a Second Conditional."
+            },
+            {
+                question: "I _______ in that startup if I _______ in your shoes. The financial projections are too risky.",
+                options: ["wouldn't invest / were", "won't invest / am", "didn't invest / was", "wouldn't invest / would be"],
+                correctAnswer: "wouldn't invest / were",
+                explanation: "<strong>Structure: Subject + wouldn't + Base Verb + if + I + were...</strong> 'If I were in your shoes' is a common idiom used to give hypothetical advice."
+            },
+            {
+                question: "_______ the offer if the company _______ a comprehensive relocation package?",
+                options: ["Would you accept / provided", "Will you accept / provides", "Did you accept / would provide", "Would you accept / would provide"],
+                correctAnswer: "Would you accept / provided",
+                explanation: "<strong>Structure: Would + Subject + Base Verb + if + Subject + Past Simple.</strong> We use this to negotiate or discuss hypothetical terms of employment."
+            },
+            {
+                question: "If we _______ our prices, we _______ our market share, but our profit margins would suffer.",
+                options: ["lowered / might increase", "lower / will increase", "would lower / increased", "lowered / increased"],
+                correctAnswer: "lowered / might increase",
+                explanation: "<strong>Structure: If + Past Simple, ... might + Base Verb.</strong> We use 'might' instead of 'would' when we are less certain about the hypothetical outcome (it's a possibility, not a guarantee)."
+            },
+            {
+                question: "If the CEO _______ to step down today, the board _______ the CFO as interim director.",
+                options: ["were / would appoint", "was / will appoint", "is / appoints", "would be / appointed"],
+                correctAnswer: "were / would appoint",
+                explanation: "<strong>Structure: If + Subject + were to + Base Verb, ... would + Base Verb.</strong> 'Were to' makes the hypothetical scenario sound even more formal and unlikely."
+            },
+            {
+                question: "The software integration is a mess. If we _______ an external consultant, the project _______ much faster.",
+                options: ["hired / would progress", "hire / will progress", "would hire / progressed", "hired / progresses"],
+                correctAnswer: "hired / would progress",
+                explanation: "<strong>Structure: If + Past Simple, ... would + Base Verb.</strong> We are imagining a different present/future where we have a consultant."
+            },
+            {
+                question: "We _______ the deadline if the client _______ changing the project requirements every week.",
+                options: ["would meet / didn't keep", "will meet / doesn't keep", "would meet / wouldn't keep", "met / didn't keep"],
+                correctAnswer: "would meet / didn't keep",
+                explanation: "<strong>Structure: Subject + would + Base Verb + if + Subject + didn't + Base Verb.</strong> This expresses frustration about a present situation that we wish was different."
+            },
+            {
+                question: "If I _______ access to the raw data, I _______ the financial report myself.",
+                options: ["had / would audit", "have / will audit", "would have / audited", "had / audited"],
+                correctAnswer: "had / would audit",
+                explanation: "<strong>Structure: If + Past Simple (had), ... would + Base Verb (audit).</strong> 'Had' is the past simple of 'have'. We do not use 'would have' in the if-clause."
+            },
+            {
+                question: "How _______ our competitors _______ if we _______ a completely free version of our flagship software?",
+                options: ["would...react / launched", "will...react / launch", "did...react / would launch", "would...react / launch"],
+                correctAnswer: "would...react / launched",
+                explanation: "<strong>Structure: How + would + Subject + Base Verb + if + Subject + Past Simple.</strong> Used for strategizing and anticipating hypothetical market reactions."
+            },
+            {
+                question: "If the new server _______ so buggy, the IT department _______ so many complaint tickets.",
+                options: ["wasn't / wouldn't receive", "isn't / won't receive", "wouldn't be / didn't receive", "weren't / wouldn't received"],
+                correctAnswer: "wasn't / wouldn't receive",
+                explanation: "<strong>Structure: If + Past Simple Negative, ... wouldn't + Base Verb.</strong> (Note: 'weren't' is also acceptable formally, but 'wasn't/wouldn't receive' is the only grammatically complete option provided)."
+            },
+            {
+                question: "The board _______ the merger if it _______ their core business values in any way.",
+                options: ["wouldn't consider / jeopardized", "won't consider / jeopardizes", "didn't consider / would jeopardize", "wouldn't consider / would jeopardize"],
+                correctAnswer: "wouldn't consider / jeopardized",
+                explanation: "<strong>Structure: Subject + wouldn't + Base Verb + if + Subject + Past Simple.</strong> A clear statement of hypothetical corporate policy."
+            }
+        ];
+
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let answered = false;
+
+        const questionTracker = document.getElementById('question-tracker');
+        const scoreTracker = document.getElementById('score-tracker');
+        const progressBar = document.getElementById('progress-bar');
+        const questionText = document.getElementById('question-text');
+        const optionsContainer = document.getElementById('options-container');
+        const feedbackArea = document.getElementById('feedback-area');
+        const feedbackBox = document.getElementById('feedback-box');
+        const feedbackTitle = document.getElementById('feedback-title');
+        const feedbackExplanation = document.getElementById('feedback-explanation');
+        const quizContainer = document.getElementById('quiz-container');
+        const resultsContainer = document.getElementById('results-container');
+        const finalScore = document.getElementById('final-score');
+        const performanceMessage = document.getElementById('performance-message');
+
+        function shuffleArray(array) {
+            let currentIndex = array.length, randomIndex;
+            while (currentIndex != 0) {
+                randomIndex = Math.floor(Math.random() * currentIndex);
+                currentIndex--;
+                [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+            }
+            return array;
+        }
+
+        function initQuiz() {
+            // Shuffle the bank and pick 10 for procedurally generated replayability
+            let shuffledBank = shuffleArray([...questionBank]);
+            currentQuestions = shuffledBank.slice(0, 10);
+            
+            currentQuestionIndex = 0;
+            score = 0;
+            quizContainer.classList.remove('hidden');
+            resultsContainer.classList.add('hidden');
+            updateUI();
+            loadQuestion();
+        }
+
+        function loadQuestion() {
+            answered = false;
+            feedbackArea.classList.add('hidden');
+            
+            const currentQ = currentQuestions[currentQuestionIndex];
+            questionText.innerHTML = `${currentQuestionIndex + 1}. ${currentQ.question}`;
+            
+            optionsContainer.innerHTML = '';
+            
+            // Shuffle options for the current question
+            let shuffledOptions = shuffleArray([...currentQ.options]);
+            
+            shuffledOptions.forEach((option) => {
+                const button = document.createElement('button');
+                button.className = "w-full text-left p-4 rounded-xl border-2 border-slate-200 hover:bg-slate-50 hover:border-blue-400 transition-all duration-200 text-slate-700 font-medium text-base md:text-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50";
+                button.textContent = option;
+                button.onclick = () => selectAnswer(option, currentQ.correctAnswer, button);
+                optionsContainer.appendChild(button);
+            });
+
+            updateUI();
+        }
+
+        function selectAnswer(selectedOption, correctAnswer, selectedButton) {
+            if (answered) return;
+            answered = true;
+
+            const buttons = optionsContainer.querySelectorAll('button');
+            buttons.forEach(btn => btn.classList.add('disabled'));
+
+            if (selectedOption === correctAnswer) {
+                selectedButton.classList.add('correct');
+                score++;
+                showFeedback(true, currentQuestions[currentQuestionIndex].explanation);
+            } else {
+                selectedButton.classList.add('incorrect');
+                // Highlight the correct answer automatically
+                buttons.forEach(btn => {
+                    if (btn.textContent === correctAnswer) {
+                        btn.classList.add('correct');
+                        btn.classList.remove('disabled'); // make the correct one visually pop slightly more
+                        btn.style.opacity = "0.9";
+                    }
+                });
+                showFeedback(false, currentQuestions[currentQuestionIndex].explanation);
+            }
+
+            updateUI();
+        }
+
+        function showFeedback(isCorrect, explanation) {
+            feedbackArea.classList.remove('hidden');
+            
+            if (isCorrect) {
+                feedbackBox.className = "p-4 rounded-lg border bg-green-50 border-green-200";
+                feedbackTitle.className = "font-bold text-lg mb-1 text-green-800 flex items-center gap-2";
+                feedbackTitle.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path></svg> Correct!`;
+            } else {
+                feedbackBox.className = "p-4 rounded-lg border bg-red-50 border-red-200";
+                feedbackTitle.className = "font-bold text-lg mb-1 text-red-800 flex items-center gap-2";
+                feedbackTitle.innerHTML = `<svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path></svg> Incorrect`;
+            }
+            
+            feedbackExplanation.innerHTML = explanation;
+        }
+
+        function nextQuestion() {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < currentQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        }
+
+        function updateUI() {
+            questionTracker.textContent = `Question ${currentQuestionIndex + 1} of ${currentQuestions.length}`;
+            scoreTracker.textContent = `Score: ${score}`;
+            
+            // Calculate progress, ensuring it looks good at 0 and 100
+            const progress = ((currentQuestionIndex) / currentQuestions.length) * 100;
+            progressBar.style.width = `${progress === 0 ? 5 : progress}%`; 
+        }
+
+        function showResults() {
+            quizContainer.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            finalScore.textContent = score;
+
+            if (score >= 9) {
+                performanceMessage.innerHTML = "<strong>Excellent Negotiation Skills!</strong> You have a masterful grasp of the Second Conditional in a business context. You can clearly communicate hypothetical strategies and outcomes.";
+            } else if (score >= 6) {
+                performanceMessage.innerHTML = "<strong>Solid Foundation.</strong> You have a good understanding of hypothetical business scenarios. Pay close attention to ensuring you use the Past Simple in the 'if' clause, and 'would + base verb' in the result clause.";
+            } else {
+                performanceMessage.innerHTML = "<strong>More Practice Needed.</strong> The Second Conditional can be tricky. Remember the golden rule: <em>If + Past Simple, ... would + Base Verb</em>. Try the quiz again to reinforce the structure!";
+            }
+        }
+
+        function restartQuiz() {
+            initQuiz();
+        }
+
+        // Initialize the app when the DOM is ready
+        initQuiz();
+    </script>
+</body>
+</html>
