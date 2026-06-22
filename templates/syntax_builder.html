@@ -1,0 +1,81 @@
+<!-- Контейнер "The Legal Discovery Grid" -->
+<div id="grammar-workbench" class="max-w-4xl w-full mx-auto bg-slate-950/95 border-2 border-slate-800 rounded-xl p-8 shadow-2xl font-mono text-slate-200 backdrop-blur-md relative overflow-hidden my-6">
+    
+    <!-- Неоновая сетка на бэкграунде -->
+    <div class="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-20 pointer-events-none"></div>
+
+    <div class="relative z-10">
+        <!-- Заголовок дела -->
+        <div class="flex justify-between items-center border-b border-slate-800 pb-4 mb-6">
+            <h2 class="text-2xl font-bold tracking-wider uppercase text-slate-100">Case #0412: The Syntax Cross-Examination</h2>
+            <span class="text-xs bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-3 py-1 rounded">STATUS: IN PROGRESS</span>
+        </div>
+
+        <!-- Рабочая зона: Перекрестный допрос -->
+        <div id="examination-zone">
+            <!-- Зона Условия (If-Clause) — Жестко задана -->
+            <div class="mb-8 p-6 bg-cyan-950/30 border border-cyan-500/30 rounded-lg">
+                <span class="text-xs uppercase text-cyan-400 font-bold tracking-widest block mb-2">// Зона Обвинения (If-Clause)</span>
+                <p id="if-clause-text" class="text-2xl md:text-3xl font-semibold text-cyan-300">If Harvey had taken the settlement yesterday,</p>
+            </div>
+
+            <!-- Зона Сборки Следствия (Main-Clause Target Slot) -->
+            <div class="mb-8 p-6 bg-slate-900/50 border-2 border-dashed border-slate-700 rounded-lg min-h-[100px] flex items-center justify-center transition-all duration-300" id="target-slot">
+                <p id="slot-placeholder" class="text-slate-500 text-lg uppercase tracking-wider">[Перетащите сюда или кликните по верной плитке следствия]</p>
+            </div>
+
+            <!-- Пул доступных улик (Варианты ответов) -->
+            <div class="mb-4">
+                <span class="text-xs uppercase text-slate-400 font-bold tracking-widest block mb-3">// Доступные Аргументы (Main-Clause Options)</span>
+                <div class="grid grid-cols-1 gap-3" id="options-pool">
+                    <!-- Опция 1 (Неверная - Second Conditional) -->
+                    <button onclick="selectOption(this, false, 'he would win the case easily today.')" class="w-full text-left p-4 bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-lg text-xl transition-all duration-200 focus:outline-none">
+                        <span class="text-amber-500 font-bold mr-3">A.</span> he would win the case easily today.
+                    </button>
+                    <!-- Опция 2 (Верная - Mixed/Third Conditional Context) -->
+                    <button onclick="selectOption(this, true, 'we would not be facing this trial right now.')" class="w-full text-left p-4 bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-lg text-xl transition-all duration-200 focus:outline-none">
+                        <span class="text-amber-500 font-bold mr-3">B.</span> we would not be facing this trial right now.
+                    </button>
+                    <!-- Опция 3 (Неверная - Нарушение структуры) -->
+                    <button onclick="selectOption(this, false, 'he will have closed the firm.')" class="w-full text-left p-4 bg-slate-900 border border-slate-800 hover:border-amber-500/50 rounded-lg text-xl transition-all duration-200 focus:outline-none">
+                        <span class="text-amber-500 font-bold mr-3">C.</span> he will have closed the firm.
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Экран "Судебный Протокол Аналитики" (Изначально скрыт) -->
+        <div id="analytics-scoreboard" class="hidden border-t border-slate-800 pt-6 mt-6 animate-fade-in">
+            <h3 class="text-2xl font-bold text-amber-500 uppercase tracking-widest mb-6 flex items-center">
+                <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                VERDICT ANALYTICS SCOREBOARD
+            </h3>
+            
+            <!-- Сетка метрик -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                <div class="bg-slate-900 p-4 border border-slate-800 rounded-lg text-center">
+                    <span class="text-xs text-slate-400 block uppercase mb-1">Time to Verdict</span>
+                    <span id="metric-time" class="text-3xl font-bold text-slate-100">0.0s</span>
+                </div>
+                <div class="bg-slate-900 p-4 border border-slate-800 rounded-lg text-center">
+                    <span class="text-xs text-slate-400 block uppercase mb-1">Hesitation Index</span>
+                    <span id="metric-hesitation" class="text-3xl font-bold text-amber-400">0</span>
+                </div>
+                <div class="bg-slate-900 p-4 border border-slate-800 rounded-lg text-center">
+                    <span class="text-xs text-slate-400 block uppercase mb-1">Accuracy Rating</span>
+                    <span id="metric-accuracy" class="text-3xl font-bold text-emerald-400">0%</span>
+                </div>
+            </div>
+
+            <!-- Текстовое экспертное заключение -->
+            <div class="bg-slate-900 p-5 border border-slate-800 rounded-lg mb-6">
+                <span class="text-xs uppercase text-slate-400 font-bold tracking-widest block mb-2">// Judge's Legal Opinion</span>
+                <p id="legal-opinion-text" class="text-lg text-slate-300 leading-relaxed"></p>
+            </div>
+
+            <button onclick="resetCase()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold py-3 px-6 rounded-lg transition-all duration-200 uppercase tracking-wider">
+                Запустить следующий процесс (Next Case)
+            </button>
+        </div>
+    </div>
+</div>
