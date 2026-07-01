@@ -3,118 +3,170 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>English Cinema Hub | Executive Track</title>
+    <title>EnglishCinemaHub | SaaS Lego Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
-    
     <style>
-        .font-playfair { font-family: 'Playfair Display', serif; }
-        .font-inter { font-family: 'Inter', sans-serif; }
-        
-        /* Эффект дорогого матового стекла */
-        .glass-panel {
-            background: rgba(15, 23, 42, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
+        body {
+            background-color: #030712;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Кастомизация внутренних скроллбаров под темный премиальный UI */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 2px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
         
-        /* Процедурный фон в стиле "Stitch" */
-        .bg-stitch {
-            background-color: #0f172a;
-            background-image: radial-gradient(#334155 1.5px, transparent 1.5px);
-            background-size: 24px 24px;
+        /* Lego-блоки: жесткое позиционирование элементов */
+        .lego-column {
+            float: left;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+            padding: 24px;
+        }
+        .lego-clear {
+            clear: both;
         }
     </style>
 </head>
-<body class="bg-stitch text-white font-inter min-h-screen flex flex-col">
+<body class="text-slate-200">
 
-    <nav class="w-full p-6 z-20 relative">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="text-2xl font-playfair font-bold tracking-wide">
-                English<span class="text-blue-500">Cinema</span>Hub.
-            </div>
-            <button class="bg-blue-600 hover:bg-blue-500 px-6 py-2 rounded-lg text-sm font-semibold transition-colors">
-                Sign In
-            </button>
+    <header style="height: 70px;" class="bg-slate-900 border-b border-slate-800 px-6 py-4 flex justify-between items-center z-20">
+        <div class="flex items-center gap-3">
+            <h1 class="text-lg font-black tracking-widest text-white">ENGLISH<span class="text-cyan-400">CINEMA</span>HUB<span class="text-amber-500">.</span></h1>
+            <span class="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/25 px-2 py-0.5 rounded font-bold">PREMIUM</span>
         </div>
-    </nav>
-
-    <main class="flex-grow flex items-center justify-center p-6 relative overflow-hidden">
         
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] pointer-events-none"></div>
-
-        <div class="max-w-7xl w-full grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10">
-            
-            <div class="space-y-8">
-                <div class="inline-flex items-center px-4 py-1.5 rounded-full bg-slate-800/80 border border-slate-700 text-blue-400 text-xs font-bold tracking-widest uppercase">
-                    <span class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span>
-                    Interactive Case Study
-                </div>
-                
-                <h1 class="text-5xl lg:text-6xl font-playfair leading-tight">
-                    Precision English for <br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-emerald-400">Global Leaders</span>
-                </h1>
-                
-                <p class="text-lg text-slate-400 max-w-md leading-relaxed">
-                    Step into the boardroom. Watch the negotiation, analyze the syntax, and choose your response to close the deal.
-                </p>
+        <div class="flex items-center gap-6 text-xs text-slate-400">
+            <div>
+                <span class="text-[9px] text-slate-500 uppercase tracking-wider block">Rank Status</span>
+                <span class="font-bold text-amber-400" id="career-rank">Legal Intern</span>
             </div>
+            <div style="width: 1px; height: 24px;" class="bg-slate-800"></div>
+            <div>
+                <span class="text-[9px] text-slate-500 uppercase tracking-wider block">Daily Streak</span>
+                <span class="font-bold text-slate-200">🔥 5 Days</span>
+            </div>
+            <div style="width: 1px; height: 24px;" class="bg-slate-800"></div>
+            <div>
+                <span class="text-[9px] text-slate-500 uppercase tracking-wider block">Cases Solved</span>
+                <span class="font-bold text-cyan-400">42 / 150</span>
+            </div>
+        </div>
+    </header>
 
-            <div class="glass-panel rounded-2xl p-5 relative">
-                <div class="flex justify-between items-center mb-4 px-1">
-                    <span class="text-sm font-semibold text-slate-300">Case #01: The Merger Ultimatum</span>
-                    <span class="text-xs text-slate-500 font-mono">Module: Conditionals</span>
-                </div>
-
-                <div class="aspect-video bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 group cursor-pointer">
-                    <div class="absolute inset-0 flex items-center justify-center flex-col group-hover:bg-blue-900/20 transition-all">
-                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
-                            <svg class="w-8 h-8 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                        </div>
-                        <span class="mt-4 text-sm text-slate-400 font-medium">Load Suits_S01E01_Negotiation.mp4</span>
+    <div style="width: 100%; height: calc(100vh - 70px); overflow: hidden;">
+        
+        <aside class="lego-column bg-slate-950/40 border-r border-slate-900" style="width: 25%;">
+            <div class="space-y-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4">
+                    <h3 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">// SYLLABUS</h3>
+                    <div class="space-y-2">
+                        <button class="w-full text-left p-3 rounded-lg bg-cyan-950/20 border border-cyan-500/30 flex justify-between items-center text-xs">
+                            <span class="font-bold text-cyan-400">01. Conditionals (Mixed)</span>
+                            <span class="text-[9px] bg-cyan-400/10 text-cyan-400 px-1.5 py-0.5 rounded">ACTIVE</span>
+                        </button>
+                        <button class="w-full text-left p-3 rounded-lg bg-slate-950 border border-slate-800 flex justify-between items-center text-xs text-slate-500 cursor-not-allowed" disabled>
+                            <span>02. Inversion & Emphasis</span>
+                            <span class="text-[9px] bg-slate-900 text-slate-600 px-1.5 py-0.5 rounded">LOCKED</span>
+                        </button>
                     </div>
                 </div>
 
-                <div class="mt-6 space-y-3">
-                    <p class="text-sm text-slate-300 font-medium mb-3">Your counter-offer (Choose wisely):</p>
-                    
-                    <button class="w-full text-left px-5 py-3.5 rounded-lg bg-slate-800/80 hover:bg-blue-600 transition-colors border border-slate-700 hover:border-blue-400 text-sm group flex items-center justify-between">
-                        <span>A: "If you don't sign this, we will walk away."</span>
-                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
-                    </button>
-                    
-                    <button class="w-full text-left px-5 py-3.5 rounded-lg bg-slate-800/80 hover:bg-slate-700 transition-colors border border-slate-700 hover:border-slate-500 text-sm group flex items-center justify-between">
-                        <span>B: "If you wouldn't sign this, we walked away."</span>
-                        <span class="opacity-0 group-hover:opacity-100 transition-opacity">→</span>
+                <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-4">
+                    <h3 class="text-[10px] font-bold tracking-widest text-slate-400 uppercase">// LIVE MONITORING</h3>
+                    <div class="p-3 bg-slate-950 border border-slate-800 rounded-lg">
+                        <p class="text-[9px] text-slate-400 uppercase tracking-widest font-bold">Hardman Ladder Progress</p>
+                        <div class="w-full bg-slate-900 h-1.5 rounded-full overflow-hidden mt-2">
+                            <div id="career-progress-bar" class="bg-gradient-to-r from-cyan-500 to-amber-500 h-full w-[20%] transition-all duration-500"></div>
+                        </div>
+                    </div>
+                    <div class="space-y-2 text-xs font-mono">
+                        <div class="flex justify-between border-b border-slate-800 pb-1.5">
+                            <span class="text-slate-500">Accuracy:</span>
+                            <span class="text-emerald-400 font-bold">87.5%</span>
+                        </div>
+                        <div class="flex justify-between border-b border-slate-800 pb-1.5">
+                            <span class="text-slate-500">Avg. Time:</span>
+                            <span class="text-slate-300">4.2s</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <section class="lego-column border-r border-slate-900" style="width: 30%; overflow: hidden; display: flex; align-items: center; justify-content: center;">
+            <div class="w-full max-w-[340px] bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-2xl">
+                <div class="bg-slate-950 px-4 py-2.5 border-b border-slate-800 flex justify-between items-center">
+                    <span class="text-[10px] uppercase text-cyan-400 font-bold tracking-wider">// SHORTS STREAM</span>
+                    <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                </div>
+                <div class="relative aspect-[9/16] bg-slate-950 w-full">
+                    <video id="cinema-footage" class="w-full h-full object-cover" controls preload="metadata">
+                        <source src="" type="video/mp4">
+                    </video>
+                </div>
+            </div>
+        </section>
+
+        <main class="lego-column bg-slate-950/20" style="width: 45%;">
+            <div id="examination-zone" class="space-y-5 opacity-40 pointer-events-none transition-all duration-300">
+                <div class="flex justify-between items-center border-b border-slate-800 pb-3">
+                    <h2 id="ui-case-id" class="text-xs font-bold tracking-wider uppercase text-slate-400">Loading Case File...</h2>
+                    <span class="text-[9px] bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 px-2 py-0.5 rounded font-mono">CASE-TEST</span>
+                </div>
+
+                <div class="p-4 bg-cyan-950/20 border border-cyan-500/20 rounded-xl">
+                    <span class="text-[9px] uppercase text-cyan-400 font-bold tracking-widest block mb-1">// PROSECUTION CONDITION</span>
+                    <p id="if-clause-text" class="text-sm font-semibold tracking-wide text-slate-100"></p>
+                </div>
+
+                <div id="target-slot" class="p-4 bg-slate-950 border-2 border-dashed border-slate-800 rounded-xl min-h-[70px] flex items-center justify-center transition-all">
+                    <p id="slot-placeholder" class="text-slate-500 text-[10px] uppercase tracking-wider text-center font-mono">[Awaiting Video Incident Pause...]</p>
+                </div>
+
+                <div class="space-y-2">
+                    <span class="text-[9px] uppercase text-slate-500 font-bold tracking-widest block mb-1">// ARGUMENT POOL</span>
+                    <div id="options-pool" class="space-y-2"></div>
+                </div>
+
+                <div id="analytics-scoreboard" class="hidden pt-4 border-t border-slate-800 space-y-4">
+                    <div class="grid grid-cols-3 gap-3 font-mono text-center">
+                        <div class="bg-slate-900 p-2.5 border border-slate-800 rounded-lg">
+                            <p class="text-slate-500 text-[8px] uppercase tracking-wider mb-0.5">Time to Verdict</p>
+                            <p id="metric-time" class="text-xs font-bold text-slate-200">-</p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 border border-slate-800 rounded-lg">
+                            <p class="text-slate-500 text-[8px] uppercase tracking-wider mb-0.5">Hesitation Index</p>
+                            <p id="metric-hesitation" class="text-xs font-bold text-amber-400">-</p>
+                        </div>
+                        <div class="bg-slate-900 p-2.5 border border-slate-800 rounded-lg">
+                            <p class="text-slate-500 text-[8px] uppercase tracking-wider mb-0.5">Accuracy Rating</p>
+                            <p id="metric-accuracy" class="text-xs font-bold text-slate-200">-</p>
+                        </div>
+                    </div>
+
+                    <div class="p-3 bg-slate-900 border border-slate-800 rounded-lg">
+                        <span class="text-[8px] uppercase text-slate-500 font-bold tracking-widest block mb-1">// JUDGE'S LEGAL OPINION</span>
+                        <p id="legal-opinion-text" class="text-xs text-slate-400 leading-relaxed font-sans"></p>
+                    </div>
+
+                    <button onclick="resetCase()" class="w-full bg-cyan-500 hover:bg-cyan-600 text-slate-950 font-black py-2.5 px-4 rounded-lg transition-colors tracking-widest uppercase text-xs">
+                        Launch Next Case
                     </button>
                 </div>
             </div>
+        </main>
 
-        </div>
-        <div class="relative w-full aspect-[9/16] max-w-[360px] mx-auto rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-    <div id="player"></div>
-</div>
-    </main>
-<div id="quiz-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-md">
-        <div class="bg-white/10 border border-white/20 rounded-2xl p-8 max-w-lg w-full shadow-2xl text-white mx-4">
-            
-            <div class="w-full bg-white/20 h-1.5 rounded-full mb-6 overflow-hidden">
-                <div id="timer-bar" class="bg-green-500 h-full w-full transition-all duration-1000 ease-linear"></div>
-            </div>
-            
-            <h3 id="quiz-question" class="text-xl font-bold mb-6 tracking-wide leading-snug"></h3>
-            
-            <div id="quiz-options" class="space-y-4"></div>
-            
-            <div id="quiz-feedback" class="hidden mt-6 p-4 rounded-xl border text-sm font-medium transition-all duration-300"></div>
-            
-        </div>
+        <div class="lego-clear"></div>
     </div>
 
-    <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="../static/js/quiz.js"></script>
+    <script src="/static/js/syntax_engine.js"></script>
 </body>
 </html>
