@@ -108,7 +108,13 @@
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                 </div>
                 <div class="relative aspect-[9/16] bg-slate-950 w-full">
-                    <video id="cinema-footage" class="w-full h-full object-cover" controls preload="metadata">
+                    <video id="cinema-footage" 
+                           class="w-full h-full object-cover" 
+                           controls 
+                           playsinline 
+                           webkit-playsinline 
+                           muted 
+                           preload="auto">
                         <source src="" type="video/mp4">
                     </video>
                 </div>
